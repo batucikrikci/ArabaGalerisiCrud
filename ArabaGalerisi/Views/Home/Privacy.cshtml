@@ -1,0 +1,69 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
+<h1>@ViewData["Title"]</h1>
+
+@*Burada yeni bir araba eklemek için alanlar olacak ve buton olacak*@
+
+
+<h1>ARABA EKLEME</h1>
+
+<p><b>Arabanın Markası:</b></p>
+<input type="text" id="txtMarkasi" />
+
+<br />
+
+<p><b>Arabanın Yılı:</b></p>
+<input type="text" id="txtYil" />
+
+<br />
+
+<p><b>Araba İkinci El Mi:</b></p>
+<input type="checkbox" id="checkboxEvet"/>
+
+
+<br />
+<br />
+<input class="btn btn-success" type="submit" id="btnEkle" value="Araba EKle" />
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+
+    //Buraya ajax için gerekli işlemleri yazacağız.
+
+    $('#btnEkle').click(function () { //btnEkle id'li butuna tıklandığı zaman çalışacak fonksiyon.
+
+        // WEBAPI'mizden bütün ürünleri getirmeyi çağırıp, p taginin içerisine yazdıralım.
+
+        // Öncesinde WEBAPI'deki metota bir ürün objesi göndermemiz gerekli.
+
+        let araba = {
+            Marka:$('#txtMarkasi').val(),
+            Yil:$('#txtYil').val(),
+            IkınciElMi:$('txtIkıncıEl').val()
+        }
+
+        $.ajax({
+            url: 'https://localhost:7049/api/Car/Ekle',
+            type: 'POST',
+            data: JSON.stringify(araba), // oluşturduğumuz objeyi Json'a çevir
+            headers:{
+                'Content-Type': 'application/json'
+                
+            },
+
+            success: function (data) // Başarılı olduğu zaman çalışsan bölüm
+            {
+               alert("Başarılı bir şekilde eklenmiştir.");
+               window.location.href="/Home/Index/";
+            },
+            error: function () // hatalı olduğu zaman çalışacak bölüm
+            {
+                alert("HATA OLUŞTU.");
+            }
+        });
+
+    });
+
+</script>

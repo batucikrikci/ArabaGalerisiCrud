@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Nicea Galeri</h1>
+
+@*Bu görünümde, önceden yazdığımız mobilya ürünleri ile ilgili olam WEBAPI'ı kullanarak işlemler yapacağız.
+
+Örneğin: WEBAPI'daki ekleme kullanarak araba ekleme, güncellemeyi kullanarak araba güncelleme, silmeyi kullanarak arabayı silme, getirmeyi kullanarak arabayı getirmeyi sağlayağız.
+
+Daha sonra da WEBAPI'ye id'ye göre getir yazıp, onu da burada kullanacağız.
+
+
+
+Bunun işlemler için AJAX kullnacağız.
+
+
+Bu proje çalışırken WEBAPI projeside de çalışacaktır.
+
+
+
+
+*@
+
+<h2>ARABA LİSTESİ İÇİN TIKLAYINIZ</h2>
+<input class="btn btn-primary" type="button" id="btnListele" value="Tüm ürünleri Getir"/>
+
+<p id="tumArabalar"></p> @*Butuna basıldığı zaman ürünler, burada p tag'i  içerisine listenelecek.*@
+
+<br />
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+
+    //Buraya ajax için gerekli işlemleri yazacağız.
+
+    $('#btnListele').click(function() { //btnListele id'li butuna tıklandığı zaman çalışacak fonksiyon.
+
+        // WEBAPI'mizden bütün ürünleri getirmeyi çağırıp, p taginin içerisine yazdıralım.
+        $.ajax({
+            url: 'https://localhost:7049/api/Car/ArabalariGetir',
+            type: 'GET',
+            dataType:'json',
+            contentType:'application/json;charset=utf-8',
+
+            success: function(data) // Başarılı olduğu zaman çalışsan bölüm
+            {
+                // API'den gelen verileri döngü ile yazdıralım.
+                console.log(data);
+               $.each(data,function(index,item)
+               {
+                   document.getElementById("tumArabalar").innerHTML += 'Araba Markası: ' + item.marka + "  " + item.yil+ "<br/>";
+               });
+            },
+            error: function() // hatalı olduğu zaman çalışacak bölüm
+            {
+                alert("HATA OLUŞTU.");
+            }
+        });
+
+    });
+
+</script>

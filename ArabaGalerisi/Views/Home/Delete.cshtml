@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<h2>ARABA SİLME</h2>
+<p><b>Güncellenecek Arabanın Id'si:</b></p>
+<input type="text" id="txtId" />
+
+
+<br />
+<input class="btn btn-danger" type="submit" id="btnSil" value="Arabayı Sil" />
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+
+    //Buraya ajax için gerekli işlemleri yazacağız.
+
+    $('#btnSil').click(function () { //btnListele id'li butuna tıklandığı zaman çalışacak fonksiyon.
+
+        let id=$('#txtId').val();
+
+        // Id'yi WEBAPI mizdeki gerekli URL'e göndereceğiz.
+        $.ajax({
+            url: 'https://localhost:7049/api/Car/Sil?id='+id,
+            type: 'DELETE',
+            contentType: 'application/json;charset=utf-8',
+
+            success: function (data) // Başarılı olduğu zaman çalışsan bölüm
+            {
+              alert("Başarıyla Silinmiştir");
+                window.location.href = "/Home/Index/";
+
+            },
+            error: function () // hatalı olduğu zaman çalışacak bölüm
+            {
+                alert("HATA OLUŞTU.");
+            }
+        });
+
+    });
+
+</script>
